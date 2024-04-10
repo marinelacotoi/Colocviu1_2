@@ -1,10 +1,15 @@
 package ro.pub.cs.systems.eim.Colocviu1_2;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.Display;
+import android.view.WindowManager;
 import android.widget.Button;
 // import set text
 import android.widget.TextView;
@@ -22,7 +27,43 @@ public class Colocviu1_2MainActivity extends AppCompatActivity {
     TextView all_terms;
     EditText input;
 
+    int calculatedSum = 0;
+
     private ActivityResultLauncher activityResultLauncher;
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("sum", String.valueOf(getSum(all_terms.getText().toString())));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState.containsKey("sum")) {
+            String sum = savedInstanceState.getString("sum");
+            all_terms.setText(sum);
+            Toast.makeText(this, "OK: The sum is: " + sum, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public int getSum(String input) {
+
+        if (calculatedSum != 0) {
+            return calculatedSum;
+        }
+        int sum = 0;
+
+        String[] terms = input.split("\\+");
+        for (String term : terms) {
+            System.out.println(term);
+            sum += Integer.parseInt(term);
+        }
+
+        return sum;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +100,8 @@ public class Colocviu1_2MainActivity extends AppCompatActivity {
                     System.out.println("Result code: " + result.getResultCode());
                     if (result.getResultCode() == RESULT_OK) {
                         String data = result.getData().getExtras().getString("all_terms");
+
+                        calculatedSum = Integer.parseInt(data);
                         Toast.makeText(this, "OK: The sum is: " + data, Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Cancel: No result.", Toast.LENGTH_SHORT).show();

@@ -17,6 +17,7 @@
             android:exported="false" />
         <activity
             android:name=".Colocviu1_2MainActivity"
+            android:configChanges="orientation"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

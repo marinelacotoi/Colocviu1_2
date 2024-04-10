@@ -43,6 +43,7 @@
         android:layout_marginBottom="556dp"
         android:text="1+2+3+4"
         android:textSize="24sp"
+        android:saveEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.145"
